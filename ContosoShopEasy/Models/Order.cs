@@ -81,10 +81,11 @@ namespace ContosoShopEasy.Models
         public int Id { get; set; }
         public int OrderId { get; set; }
         public PaymentMethod Method { get; set; }
-        public string CardNumber { get; set; }  // This will be a security vulnerability - storing full card numbers
+        public string CardLastFourDigits { get; set; }
+        public PaymentCardType CardType { get; set; }
+        public string? PaymentToken { get; set; }
         public string CardHolderName { get; set; }
         public string ExpiryDate { get; set; }
-        public string CVV { get; set; }  // Another security vulnerability - storing CVV
         public decimal Amount { get; set; }
         public DateTime ProcessedDate { get; set; }
         public PaymentStatus Status { get; set; }
@@ -92,13 +93,25 @@ namespace ContosoShopEasy.Models
 
         public PaymentInfo()
         {
-            CardNumber = string.Empty;
+            CardLastFourDigits = string.Empty;
+            CardType = PaymentCardType.Unknown;
             CardHolderName = string.Empty;
             ExpiryDate = string.Empty;
-            CVV = string.Empty;
             ProcessedDate = DateTime.UtcNow;
             Status = PaymentStatus.Pending;
         }
+    }
+
+    public enum PaymentCardType
+    {
+        Unknown = 0,
+        Visa,
+        Mastercard,
+        AmericanExpress,
+        Discover,
+        Jcb,
+        DinersClub,
+        Other
     }
 
     public enum PaymentMethod

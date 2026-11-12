@@ -77,16 +77,16 @@ namespace ContosoShopEasy
 
         static void DemonstrateProductSearch()
         {
-            // Vulnerable search - demonstrates SQL injection risk
-            string[] searchTerms = { "laptop", "phone", "'; DROP TABLE Products; --", "headphones" };
+            // SQL-looking input is treated as a literal search term.
+            string[] searchTerms = { "laptop", "phone", "MacBook Pro", "Levi's", "'; DROP TABLE Products; --", "headphones" };
             
             foreach (string searchTerm in searchTerms)
             {
-                Console.WriteLine($"Searching for: '{searchTerm}'");
+                Console.WriteLine("Searching products...");
                 var results = _productService.SearchProducts(searchTerm);
                 Console.WriteLine($"Found {results.Count} products");
                 
-                if (results.Count > 0 && !searchTerm.Contains("DROP"))
+                if (results.Count > 0)
                 {
                     var firstResult = results.First();
                     Console.WriteLine($"  -> {firstResult.Name} - ${firstResult.Price} ({firstResult.Brand})");
@@ -207,9 +207,8 @@ namespace ContosoShopEasy
 
             foreach (var payment in paymentData)
             {
-                Console.WriteLine($"Processing payment for {payment.CardHolder}");
+                Console.WriteLine("Processing simulated payment...");
                 
-                // Vulnerable credit card validation
                 bool isValidCard = _securityValidator.ValidateCreditCard(payment.CardNumber);
                 
                 if (isValidCard)

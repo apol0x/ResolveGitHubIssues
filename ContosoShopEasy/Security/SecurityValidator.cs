@@ -84,8 +84,7 @@ namespace ContosoShopEasy.Security
             if (string.IsNullOrEmpty(cardNumber))
                 return false;
 
-            // Security vulnerability: Log full credit card number
-            Console.WriteLine($"[DEBUG] Validating credit card: {cardNumber}");
+            Console.WriteLine("[DEBUG] Validating credit card input.");
 
             // Remove spaces and dashes
             cardNumber = cardNumber.Replace(" ", "").Replace("-", "");
@@ -168,9 +167,9 @@ namespace ContosoShopEasy.Security
             
             Console.WriteLine("Input validation: ENABLED (but vulnerable)");
             Console.WriteLine("Password encryption: MD5 (WEAK)");
-            Console.WriteLine("Credit card storage: FULL NUMBERS (INSECURE)");
+            Console.WriteLine("PaymentInfo storage: no full PAN or CVV; provider tokenization pending");
             Console.WriteLine("Logging level: DEBUG (EXPOSES SENSITIVE DATA)");
-            Console.WriteLine("SQL injection protection: DISABLED");
+            Console.WriteLine("Product search SQL injection: FIXED (in-memory LINQ; no dynamic SQL)");
             Console.WriteLine("XSS protection: MINIMAL");
             
             Console.WriteLine("=== End Vulnerability List ===");
